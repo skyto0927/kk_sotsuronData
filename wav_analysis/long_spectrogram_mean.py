@@ -31,23 +31,20 @@ framerate = 1000
 
 window = np.hamming(N)
 for i in range(4):#人
+    fig = plt.figure()
+    plt.rcParams['font.family'] = 'Times New Roman'
+    ax1 = fig.add_subplot(231)
+    ax2 = fig.add_subplot(232)
+
+    ax3 = fig.add_subplot(233)
+    ax4 = fig.add_subplot(234)
+    ax5 = fig.add_subplot(235)
+
+    axs1 = [ax1,ax2,ax3,ax4,ax5]
+
     for j in range(5):#母音
-        fig = plt.figure()
-        plt.rcParams['font.family'] = 'Times'
-        ax1 = fig.add_subplot(421)
-        ax2 = fig.add_subplot(423)
-
-        ax3 = fig.add_subplot(422)
-        ax4 = fig.add_subplot(424)
-
-        ax5 = fig.add_subplot(425)
-        ax6 = fig.add_subplot(427)
-
-        ax7 = fig.add_subplot(426)
-        ax8 = fig.add_subplot(428)
-        axs1 = [ax1,ax3,ax5,ax7]
-        axs2 = [ax2,ax4,ax6,ax8]
         for k in range(4):#ピッチ
+        
             fname = "wav_analysis/data/F0_1ms/"+str(i+1)+"/long/1_"+vowels[j]+"_"+str(k+1)+".txt"
             dataset = (np.loadtxt(fname, delimiter=','))[1000:7001]
 
@@ -72,33 +69,43 @@ for i in range(4):#人
             ampMean = np.mean(ampList, axis = 0)
 
 
-            df_amp = pd.DataFrame(data=ampList, index=time, columns=freq)
+            #df_amp = pd.DataFrame(data=ampList, index=time, columns=freq)
+
+            
+            axs1[j].plot(freq, np.log10(ampMean), label=pitch[k])
+        #ax1.set_xscale("log")
+        axs1[j].set_xlim(0,200)
+        axs1[j].set_ylim(-0.5,3.5)
+        axs1[j].grid(which='major',color='grey',linestyle='-')
+        axs1[j].grid(which='minor',color='grey',linestyle='-')
+        axs1[j].set_title("/"+vowels[j]+"/")
+        #axs1[j].legend()
                 
 
             
-
+        '''
             sns.heatmap(data=np.log10(df_amp.iloc[:, :100].T), 
             xticklabels=100, 
             yticklabels=50, 
             cmap=plt.cm.inferno,
             cbar=False,
-            vmin=-1,
-            vmax=4,
             ax=axs2[k]
             )
-            axs2[k].set_ylim(0,51)
+            #axs2[k].set_ylim(0,200)
 
             axs1[k].plot(range(cent.shape[0]), cent, linewidth=0.8)
             axs1[k].set_xlim(0,6000)
             axs1[k].set_xticks(range(0,6001,1000), minor=False)
             axs1[k].set_xticklabels(range(1,8,1))
             
-            fig.suptitle(str(i+1)+"_"+vowels[j])
+            #fig.suptitle(str(i+1)+"_"+vowels[j])
 
             #plt.show()
-        plt.tight_layout()
-        plt.savefig("long_spectrogram_"+str(i+1)+"_"+vowels[j]+".png", bbox_inches="tight", pad_inches=0.05, dpi=300)
-        plt.cla()
+            '''
+    fig.suptitle(str(i+1))
+    plt.tight_layout()
+    plt.savefig("long_spectrogram_"+str(i+1)+".png", bbox_inches="tight", pad_inches=0.05, dpi=300)
+    plt.cla()
 '''         
             ax1 = fig.add_subplot(411)
             ax2 = fig.add_subplot(412)

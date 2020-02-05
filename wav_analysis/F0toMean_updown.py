@@ -17,16 +17,25 @@ t.close()
 
 color = ["#e41a1c", "#377eb8", "#4daf4a","#984ea3", "#ff7f00"]
 
-fig = plt.figure()
-
-ax = fig.add_subplot(111)
 
 for k in range(4):#人
+
+    fig = plt.figure(figsize=(8,4))
+    plt.rcParams['font.family'] = 'Times New Roman'
+
+    
+    ax1 = fig.add_subplot(231)
+    ax2 = fig.add_subplot(232)
+    ax3 = fig.add_subplot(233)
+    ax4 = fig.add_subplot(234)
+    ax5 = fig.add_subplot(235)
+    axs = [ax1,ax2,ax3,ax4,ax5]
+
     dataset = []
-    for vowel in vowels:#母音
+    for v in range(5):#母音
         for i in range(5):#母音
             for key in range(3):#音高
-                filename = "1_"+vowel+ "_"+ vowels[i]
+                filename = "1_"+vowels[v]+ "_"+ vowels[i]
                 fname = "wav_analysis/data/F0/"+str(k+1)+ "/up/" +filename+ "_" + str(key+1)+ ".txt"
         
                 f0 = np.loadtxt(fname, delimiter=',')
@@ -34,26 +43,24 @@ for k in range(4):#人
                 #cent = 1200*np.log2(f0/pitch_Hz[key])
 
                 
-                ax.plot(time, f0, color=color[i] , linewidth=1)
+                axs[v].plot(time, f0, color=color[i] , linewidth=0.8)
                 
     
             
-            ax.set_yscale("log")
+        axs[v].set_yscale("log")
 
-            ax.set_yticks([], minor=True)
-            ax.set_yticks(pitch_Hz)
-            ax.set_yticklabels(pitch)
-            ax.set_ylim(pitch_Hz[0]*0.7,pitch_Hz[3]*1.3)
-            ax.hlines(pitch_Hz, 0,2, "grey", linestyles='dashed')
-            ax.vlines([1], 0,pitch_Hz[3]*1.1, "grey", linestyles='dashed')
-            ax.set_ylabel("Pitch")
-            ax.set_xlabel("Time[s]")
+        axs[v].set_yticks([], minor=True)
+        axs[v].set_yticks(pitch_Hz)
+        axs[v].set_yticklabels(pitch)
+        axs[v].set_ylim(pitch_Hz[0]*0.7,pitch_Hz[3]*1.3)
+        axs[v].hlines(pitch_Hz, 0,2, "grey", linestyles='dashed')
+        axs[v].vlines([1], 0,pitch_Hz[3]*1.1, "grey", linestyles='dashed')
 
-            
+        axs[v].set_title("Up: from /"+vowels[v]+"/")
                 #plt.legend()
-
-        plt.savefig(str(k+1) + "_"+vowel+".png", bbox_inches="tight", pad_inches=0.05, dpi=300)
-        plt.cla()
+    plt.tight_layout()
+    plt.savefig(str(k+1) + ".png", bbox_inches="tight", pad_inches=0.05, dpi=300)
+    plt.cla()
 
 
     #FFT 
