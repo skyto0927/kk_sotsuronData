@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import wave
 import pyworld as pw
 import csv
+import seaborn as sns
+import pandas as pd
 
 vowels = ['a','i','u','e','o']
 keys = ['1','2','3','4']
@@ -15,25 +17,22 @@ time_list = [float(data.strip()) for data in t.readlines()]
 time = np.array(time_list)
 t.close()
 
-color = ["#e41a1c", "#377eb8", "#4daf4a","#984ea3", "#ff7f00"]
-
+vowel_colors = sns.color_palette(n_colors=24)[5:10]
+color = sns.husl_palette(3)
 
 for k in range(4):#人
 
-    fig = plt.figure(figsize=(8,4))
+    fig = plt.figure()
     plt.rcParams['font.family'] = 'Times New Roman'
+    plt.rcParams["font.size"] = 8
 
     
-    ax1 = fig.add_subplot(231)
-    ax2 = fig.add_subplot(232)
-    ax3 = fig.add_subplot(233)
-    ax4 = fig.add_subplot(234)
-    ax5 = fig.add_subplot(235)
-    axs = [ax1,ax2,ax3,ax4,ax5]
+    
 
     dataset = []
     for v in range(5):#母音
         for i in range(5):#母音
+            ax = fig.add_subplot(5,5,v*5+i+1)
             for key in range(3):#音高
                 filename = "1_"+vowels[v]+ "_"+ vowels[i]
                 fname = "wav_analysis/data/F0/"+str(k+1)+ "/up/" +filename+ "_" + str(key+1)+ ".txt"
@@ -43,24 +42,29 @@ for k in range(4):#人
                 #cent = 1200*np.log2(f0/pitch_Hz[key])
 
                 
-                axs[v].plot(time, f0, color=color[i] , linewidth=0.8)
+                ax.plot(time, f0, color=color[key] , linewidth=1)
                 
     
             
-        axs[v].set_yscale("log")
+            ax.set_yscale("log")
+            ax.set_xlim(0,2)
 
-        axs[v].set_yticks([], minor=True)
-        axs[v].set_yticks(pitch_Hz)
-        axs[v].set_yticklabels(pitch)
-        axs[v].set_ylim(pitch_Hz[0]*0.7,pitch_Hz[3]*1.3)
-        axs[v].hlines(pitch_Hz, 0,2, "grey", linestyles='dashed')
-        axs[v].vlines([1], 0,pitch_Hz[3]*1.1, "grey", linestyles='dashed')
+            ax.set_yticks([], minor=True)
+            ax.set_yticks(pitch_Hz)
+            ax.set_yticklabels(pitch)
+            ax.set_ylim(pitch_Hz[0]*0.8,pitch_Hz[3]*1.2)
+            ax.hlines(pitch_Hz, 0,2, "grey", linestyles='dashed',linewidth=1)
+            ax.vlines([1], 0,pitch_Hz[3]*1.2, "grey", linestyles='dashed',linewidth=1)
+            if v*5+i != 20:
+                ax.set_yticks([])
+                ax.set_xticks([])
 
-        axs[v].set_title("Up: from /"+vowels[v]+"/")
-                #plt.legend()
+            #ax.set_xlabel("Time[Hz]")
+            #ax.set_ylabel("Pitch")
+                    #plt.legend()
     plt.tight_layout()
-    plt.savefig(str(k+1) + ".png", bbox_inches="tight", pad_inches=0.05, dpi=300)
+    plt.savefig("F0_up_"+str(k+1)+".eps", bbox_inches="tight", pad_inches=0.05, dpi=300)
     plt.cla()
 
 
-    #FFT 
+    #FFT  

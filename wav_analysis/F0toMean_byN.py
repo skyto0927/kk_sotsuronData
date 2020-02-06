@@ -76,12 +76,12 @@ for i in range(4):#人
         #ax.set_yticklabels(pitch)
         axs[k].set_xlim(0.9, N+0.1)
         axs[k].set_xticks([1,2,3,4], minor=False)
-        axs[k].set_xticklabels(["1~2.5","2.5~4","4~5.5","5.5~7"])
+        axs[k].set_xticklabels(["section1","section2","section3","section4"])
         axs[k].set_ylim(-100,100)
         axs[k].hlines(0, 0,N+1, "grey", linestyles='dashed')
         #ax.set_ylabel("Cent[cent]")
+        axs[k].text(3.7,80,pitch[k])
 
-        axs[k].set_title(pitch[k])
 
         #plt.legend()
     plt.tight_layout()

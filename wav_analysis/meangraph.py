@@ -19,7 +19,12 @@ t.close()
 fig = plt.figure()
 
 plt.rcParams['font.family'] = 'Times'
-ax = fig.add_subplot(111)
+ax1 = fig.add_subplot(221)
+ax2 = fig.add_subplot(222)
+ax3 = fig.add_subplot(223)
+ax4 = fig.add_subplot(224)
+
+axs = [ax1,ax2,ax3,ax4]
 
 
 
@@ -42,27 +47,29 @@ for k in range(4):#人
     for i in range(5):
         for j in range(4):
             if i == 0:
-                ax.plot(ease[k][i][j], dataset[k][i][j], color=colors[j], linewidth=1, linestyle="dashed", marker=marker[i], markersize=6, label=pitch[j])
+                axs[k].plot(ease[k][i][j], dataset[k][i][j], color=colors[j], linewidth=1, linestyle="dashed", marker=marker[i], markersize=6, label=pitch[j])
             else:
-                ax.plot(ease[k][i][j], dataset[k][i][j], color=colors[j], linewidth=1, linestyle="dashed", marker=marker[i], markersize=6)
+                axs[k].plot(ease[k][i][j], dataset[k][i][j], color=colors[j], linewidth=1, linestyle="dashed", marker=marker[i], markersize=6)
         #ax.errorbar(pitch_Hz, dataset[i], yerr=error[i], elinewidth=1, color=color[i], linewidth=1, linestyle="dashed", marker=marker[k], markersize=6, label=vowels[i], capsize=4)
     
-    ax.hlines([0], -2, 6 , "grey", linestyles='dashed')
+    axs[k].hlines([0], -2, 6 , "grey", linestyles='dashed')
     #ax.set_xscale('log')
-    ax.set_xlim(-0.5,4.5)
-    ax.set_xticks([], minor=False)
-    ax.set_xticks([0,1,2,3,4])
-    ax.set_xticklabels([0,1,2,3,4])
-    ax.set_ylabel('Cent_mean(cent)')
-    ax.set_xlabel('Difficulty')
-    plt.tight_layout()
-    plt.legend()
-    ax.set_ylim(-60,60)
+    axs[k].set_xlim(-0.5,4.5)
+    axs[k].set_xticks([], minor=False)
+    axs[k].set_xticks([0,1,2,3,4])
+    axs[k].set_xticklabels([0,1,2,3,4])
+    axs[k].set_ylabel('Cent_mean(cent)',fontsize=8)
+    axs[k].set_xlabel('Difficulty',fontsize=8)
+    axs[k].set_ylim(-60,60)
+    axs[k].legend(fontsize=8)
+    
+    axs[k].set_title("subject"+str(k+1))
 
     #plt.show()
-    plt.savefig("ease_"+str(k+1)+".png")
+plt.tight_layout()
+plt.savefig("ease.png", bbox_inches="tight", pad_inches=0.05, dpi=300)
     #plt.savefig("pitch.png")
-    plt.cla()
+plt.cla()
 
 
 

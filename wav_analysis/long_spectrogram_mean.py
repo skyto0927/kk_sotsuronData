@@ -72,14 +72,16 @@ for i in range(4):#人
             #df_amp = pd.DataFrame(data=ampList, index=time, columns=freq)
 
             
-            axs1[j].plot(freq, np.log10(ampMean), label=pitch[k])
+            axs1[j].plot(freq, np.log10(ampMean), label=pitch[k], linewidth=0.8)
         #ax1.set_xscale("log")
-        axs1[j].set_xlim(0,200)
+        axs1[j].set_xlim(0,100)
         axs1[j].set_ylim(-0.5,3.5)
         axs1[j].grid(which='major',color='grey',linestyle='-')
         axs1[j].grid(which='minor',color='grey',linestyle='-')
-        axs1[j].set_title("/"+vowels[j]+"/")
-        #axs1[j].legend()
+        axs1[j].text(20,0.2,"/"+vowels[j]+"/")
+        axs1[j].set_xlabel("Frequency",fontsize=8)
+        axs1[j].set_ylabel("Power",fontsize=8)
+        axs1[j].legend(fontsize=6)
                 
 
             
@@ -102,7 +104,7 @@ for i in range(4):#人
 
             #plt.show()
             '''
-    fig.suptitle(str(i+1))
+    #fig.suptitle(str(i+1))
     plt.tight_layout()
     plt.savefig("long_spectrogram_"+str(i+1)+".png", bbox_inches="tight", pad_inches=0.05, dpi=300)
     plt.cla()

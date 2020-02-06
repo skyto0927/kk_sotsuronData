@@ -34,10 +34,11 @@ N=512
 s = 16
 framerate = 1000
 for i in range(4):#人
-    fig = plt.figure(figsize=(8,4))
+    fig = plt.figure()
     plt.rcParams['font.family'] = 'Times New Roman'
+    plt.rcParams["font.size"] = 20
 
-    
+    """
     ax1 = fig.add_subplot(231)
     ax2 = fig.add_subplot(232)
     ax3 = fig.add_subplot(233)
@@ -45,6 +46,8 @@ for i in range(4):#人
     ax5 = fig.add_subplot(235)
 
     axs = [ax1,ax2,ax3,ax4,ax5]
+    """
+    ax=fig.add_subplot(111)
     for j in range(5):#母音
         
 
@@ -55,28 +58,30 @@ for i in range(4):#人
             
 
             time = np.linspace(0,8,8001)
-            axs[j].plot(time,dataset, linewidth=0.8, color=pitch_colors[k])
+            ax.plot(time,dataset, color=pitch_colors[k])
 
 
 
-        axs[j].hlines(all_pitch, -1, 9 , "grey", linestyles='dashed', linewidth=0.5)
-        axs[j].hlines(pitch_Hz, -1, 9 , "grey", linestyles='dashed', linewidth=1)
-        axs[j].set_yscale("log")
-        axs[j].set_yticks(pitch_Hz)
-        axs[j].set_yticks([],minor=True)
-        axs[j].set_yticklabels(pitch)
-        axs[j].set_ylim(pitch_Hz[0]*0.9, pitch_Hz[3]*1.1)
-        axs[j].set_xticks([0,2,4,6,8])
-        axs[j].set_xlim(0,8)
+        ax.hlines(all_pitch, -1, 9 , "grey", linestyles='dashed', linewidth=0.5)
+        ax.hlines(pitch_Hz, -1, 9 , "grey", linestyles='dashed', linewidth=1)
+        ax.set_yscale("log")
+        ax.set_yticks(pitch_Hz)
+        ax.set_yticks([],minor=True)
+        ax.set_yticklabels(pitch)
+        ax.set_ylim(pitch_Hz[0]*0.9, pitch_Hz[3]*1.1)
+        ax.set_xticks([0,2,4,6,8])
+        ax.set_xlim(0,8)
+        ax.set_xlabel("time[s]")
+        ax.set_ylabel("pitch")
         
-        axs[j].set_title("/"+vowels[j]+"/")
+        #axs[j].set_title("/"+vowels[j]+"/")
 
 #fig.suptitle(str(i+1))
 
         #plt.show()
-    plt.tight_layout()
-    fig.savefig(str(i+1)+".png", bbox_inches="tight", pad_inches=0.05, dpi=300)
-    plt.cla()
+        #plt.tight_layout()
+        fig.savefig("long_"+str(i+1)+"_"+vowels[j]+".png", bbox_inches="tight", pad_inches=0.05, dpi=300)
+        plt.cla()
 '''         
             ax1 = fig.add_subplot(411)
             ax2 = fig.add_subplot(412)

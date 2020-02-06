@@ -15,18 +15,12 @@ time = np.array(time_list)
 t.close()
 
 for i in range(4)
-    fig = plt.figure(figsize=(8,4))
+    fig = plt.figure()
     plt.rcParams['font.family'] = 'Times New Roman'
-
-    
-    ax1 = fig.add_subplot(231)
-    ax2 = fig.add_subplot(232)
-    ax3 = fig.add_subplot(233)
-    ax4 = fig.add_subplot(234)
-    ax5 = fig.add_subplot(235)
+    plt.rcParams["font.size"] = 20
     for vowel in vowels:
         for vowel_2 in vowels:
-            for key in range(1):
+            for key in range(4):
                 filename =  str(i+1)+"/up/1_"+vowel+"_"+vowel_2+"_"+str(key+1)
                 fname = "wav_analysis/data/F0/" +filename+ ".txt"
 
@@ -44,6 +38,7 @@ for i in range(4)
             ax1.hlines(pitch_Hz, 0, 8, "grey", linestyles='dashed')
             ax1.set_title('LongTone:'+vowel)
 
+            ax1.set_xlabel('Time[s]')
             ax1.set_xticks([0,2,4,6,8])
             ax1.set_ylabel('Frequency[Hz]')
             ax1.set_yscale("log")
@@ -60,10 +55,8 @@ for i in range(4)
             ax2.set_xlim(0,2)
             ax2.set_ylim(-100,500)
 
-            plt.tight_layout()
-
             #plt.legend()
 
-            #fig.savefig(vowel+'.png', bbox_inches="tight", pad_inches=0.05)
+            fig.savefig(vowel+'.png', bbox_inches="tight", pad_inches=0.05, dpi=300)
 
             #plt.show()
